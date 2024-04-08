@@ -11,7 +11,7 @@ public interface ListEaaa<E> extends Iterable<E> {
      * Remove the element from this list.
      * Return true, if this list is modified.
      */
-    boolean remove(E e);
+    boolean remove1(E e);
 
     /**
      * Adds an element to the start of the list
