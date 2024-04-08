@@ -116,49 +116,94 @@ public class LinkedList<T> implements ListEaaa<T> {
     public T get(int index) {
         int svar = 0;
         Node<T> temp = head;
-        while (temp != null && temp.getNext() != null) {
+        if (index > size()){
+            throw new IndexOutOfBoundsException("Fejl");
+        }
+        while (temp != null && svar <= index) {
             if (svar == index) {
                 return temp.getElement();
-            }else {
-                svar++;
-                temp = temp.getNext();
             }
+            svar++;
+            temp = temp.getNext();
         }
 
         return null;
     }
+
+
 
     @Override
     public void add(int index, T t) {
         Node<T> temp = head;
         Node<T> ny = new Node<>(t);
         int count = 0;
+        if (index > size()) {
+            throw new IndexOutOfBoundsException("Fejl");
+        }
         if (index == 0) {
             ny.setNext(head);
             head = ny;
         }
-        while (temp != null) {
+        count++;
+
+        while (temp != null && count <= index) {
+
             if (count == index) {
-                ny.setNext(temp.getNext());
-                temp.setNext(ny);
-            } else if (temp.getNext() == null && count > index) {
-                temp.setNext(ny);
-                tail = ny;
-            } else {
-                count++;
-                temp = temp.getNext();
+                if (temp == tail) {
+                    tail.setNext(ny);
+                    tail = ny;
+                } else {
+                    ny.setNext(temp.getNext());
+                    temp.setNext(ny);
+
+                }
             }
+            count++;
+            temp = temp.getNext();
+
         }
     }
 
     @Override
     public T remove(int index) {
+        Node<T> temp = head;
+        int count = 0;
+        if (index > size()){
+            throw new IndexOutOfBoundsException("Fejl");
+        }
+        if (index == 0) {
+            head = temp.getNext();
+            return head.getElement();
+
+        }
+        while (temp != null && temp.getNext() != null) {
+            if (count == index) {
+                temp.setNext(temp.getNext().getNext());
+                return temp.getElement();
+            } else if (temp.getNext() == tail) {
+                temp.setNext(null);
+                tail = temp;
+                return temp.getElement();
+            }
+            count++;
+            temp = temp.getNext();
+        }
         return null;
     }
 
     @Override
     public int indexOf(T t) {
-        return 0;
+        int count = 0;
+        Node<T> temp = head;
+        while (temp != null) {
+            if (temp.getElement() == t){
+                return count;
+            }
+            count++;
+            temp = temp.getNext();
+        }
+
+        return -1;
     }
 
     @Override

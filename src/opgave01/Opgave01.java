@@ -17,7 +17,13 @@ public class Opgave01 {
 
 
         list.add(1,2);
-        System.out.println("hej");
+        System.out.println(list.get(1));
+
+        list.remove(2);
+        System.out.println(list.get(2));
+
+        System.out.println(list.indexOf(1));
+
 
     }
 }
