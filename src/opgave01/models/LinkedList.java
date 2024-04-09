@@ -1,6 +1,9 @@
 package opgave01.models;
 
+import java.sql.SQLOutput;
 import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 public class LinkedList<T> implements ListEaaa<T> {
 
@@ -114,22 +117,25 @@ public class LinkedList<T> implements ListEaaa<T> {
 
     @Override
     public T get(int index) {
-        int svar = 0;
         Node<T> temp = head;
-        if (index > size()){
+        int count = 0;
+        if (index > size() - 1) {
             throw new IndexOutOfBoundsException("Fejl");
         }
-        while (temp != null && svar <= index) {
-            if (svar == index) {
-                return temp.getElement();
-            }
-            svar++;
-            temp = temp.getNext();
-        }
+        return getRecursive(temp, count, index);
 
-        return null;
     }
 
+    private T getRecursive(Node<T> temp, int count, int index) {
+        if (index == 0) {
+            return head.getElement();
+        }
+        if (count == index) {
+            return temp.getElement();
+        } else {
+            return getRecursive(temp.getNext(), count + 1, index);
+        }
+    }
 
 
     @Override
@@ -168,7 +174,7 @@ public class LinkedList<T> implements ListEaaa<T> {
     public T remove(int index) {
         Node<T> temp = head;
         int count = 0;
-        if (index > size()){
+        if (index > size()) {
             throw new IndexOutOfBoundsException("Fejl");
         }
         if (index == 0) {
@@ -196,7 +202,7 @@ public class LinkedList<T> implements ListEaaa<T> {
         int count = 0;
         Node<T> temp = head;
         while (temp != null) {
-            if (temp.getElement() == t){
+            if (temp.getElement() == t) {
                 return count;
             }
             count++;
@@ -208,7 +214,22 @@ public class LinkedList<T> implements ListEaaa<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+       return new Iterator<T>() {
+           Node<T> current = head;
+           @Override
+           public boolean hasNext() {
+               return current != null;
+           }
+
+           @Override
+           public T next() {
+               T data = current.getElement();
+               current = current.getNext();
+               return data;
+           }
+       };
     }
+
+
 
 }

@@ -20,7 +20,5 @@ public class Node<T> {
         return element;
     }
 
-    public void setElement(T element) {
-        this.element = element;
-    }
+
 }
